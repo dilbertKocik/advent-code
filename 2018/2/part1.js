@@ -4,7 +4,7 @@ const puzzleInputs = ['fzostwblnqkhpuzxirnevmaycq', 'fzastwblgqkupujxirnevmaucd'
 
 const calculateChecksum = puzzleInputs => {
     const piCharCounts = puzzleInputs.map(pi => {
-        const charCounts = {};
+        let charCounts = {};
         pi.split('').map(char => {
             if (charCounts[char] && charCounts[char].count) {
                 charCounts[char].count++;
@@ -18,18 +18,8 @@ const calculateChecksum = puzzleInputs => {
     let doubles = 0;
     let triples = 0;
     piCharCounts.map(picc => {
-        let foundDoubles = false;
-        let foundTriples = false;
-        picc.map(cc => {
-            const charCount = cc[1].count;
-            if (charCount === 2 && !foundDoubles) {
-                doubles++;
-                foundDoubles = true;
-            } else if (charCount === 3 && !foundTriples) {
-                triples++;
-                foundTriples = true;
-            }
-        });
+        picc.some(cc => cc[1].count === 2) && doubles++;
+        picc.some(cc => cc[1].count === 3) && triples++;
     });
 
     return doubles * triples;
