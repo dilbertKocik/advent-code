@@ -25,21 +25,22 @@ const newPatch = (id, x, y, width, length) => ({
 });
 
 
-const squareInchesOfOverlappingFabric = patches => {
-    let fabric = [];
+const overlappingFabric = patches => {
+    let fabric = new Set();
+    let overlappingFabric = new Set();
     patches.map(patch => {
         for(let x = patch.coords.x; x < (patch.coords.x + patch.area.width); x++) {
             for(let y = patch.coords.y; y < (patch.coords.y + patch.area.length); y++) {
-                const foundPatchIndex = fabric.findIndex(location => (location.x === x && location.y === y));
-                if (foundPatchIndex === -1) {
-                    fabric.push({x, y, overlap: false});
+                const location = x + 'x' + y;
+                if (fabric.has(location)) {
+                    overlappingFabric.add(location);
                 } else {
-                    fabric[foundPatchIndex].overlap = true;
+                    fabric.add(location);
                 }
             }
         }
     })
-    return fabric.reduce((acc, patch) => patch.overlap ? acc + 1 : acc, 0);
+    return overlappingFabric.size;
 }
 
-console.log('Square Inches Of Overlapping Fabric', squareInchesOfOverlappingFabric(transformData(readData('testData.txt'))));
+console.log('Square Inches Of Overlapping Fabric', overlappingFabric(transformData(readData('testData.txt'))));
