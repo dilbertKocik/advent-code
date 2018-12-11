@@ -60,4 +60,4 @@ const nonOverlappingPatches = patches => {
     return nonOverlappingPatches;
 }
 
-console.log('Square Inches Of Overlapping Fabric', nonOverlappingPatches(transformData(readData('testData.txt'))));
+console.log('Non-overlapping patch', nonOverlappingPatches(transformData(readData('testData.txt'))));
